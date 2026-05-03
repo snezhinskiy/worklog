@@ -117,9 +117,33 @@ Useful flags:
 - `--demo` — skip the DB entirely and render in-memory mocks (for screenshots).
 - `--db <path>` — point at a different SQLite file.
 
-Optional config: drop `examples/config.toml` into
+---
+
+## Config
+
+Optional. Drop [`examples/config.toml`](examples/config.toml) into
 `~/.config/worklog/config.toml` (or `$XDG_CONFIG_HOME/worklog/config.toml`)
-to tweak colors, keybindings, statuses, staleness thresholds.
+and tweak. Every field has a built-in default — leave out anything you
+don't care about.
+
+| Section                  | What it controls                                                                 |
+| ------------------------ | -------------------------------------------------------------------------------- |
+| `[ui]`                   | starting view (`worklog` / `board`), `day_target_hours`, border style            |
+| `[ui.colors]`            | palette (256-color ANSI codes) — accent, text, hours, chip backgrounds, …        |
+| `[keys]`                 | rebind single-key shortcuts (`reload`, `palette`, `move`, `activity`, `find`, …) |
+| `[stale]`                | board staleness thresholds — `warn_days` (orange), `alert_days` (red + ⚠)        |
+| `[stale_per_status.<k>]` | override staleness per status (e.g. `in_progress` should go red faster)          |
+| `[[status]]`             | full workflow — define your own statuses; `on_board = true` puts them on board   |
+| `[project_colors]`       | per-project tint, keyed by slug (e.g. `INFRA = "214"`)                           |
+
+A few notes:
+
+- **Statuses are all-or-nothing.** Declaring even one `[[status]]` block
+  fully replaces the default list. Order in the file = column order on
+  the board = cycle order of `←/→` in the editor.
+- **Key names** are bubbletea names — `"ctrl+r"`, `"alt+m"`, `"f1"` all work.
+- **Colors** are 256-color ANSI codes. [Reference chart](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit).
+- Changes apply on next launch — there's no live reload of the config file.
 
 ---
 
