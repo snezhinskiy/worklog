@@ -1,13 +1,14 @@
 # worklog
 
-Personal time tracker for people who hop between projects. A small TUI to log
-work, switch task statuses, and see what's still open across all your
-projects. The same data layer backs a CLI and an MCP server, so you can also
-tell Claude:
+A personal sidecar to whatever ticket tracker your team lives in. Keeps a
+small local log of what you did, what's still open, and where the hours
+went — for the repos and side experiments that don't fit the official
+board, and the "what was I doing on Tuesday?" moments.
+
+TUI for browsing, CLI for one-shot logging, MCP server so Claude can read
+and write the same SQLite file:
 
 > log 2h on AU-3569 today, was testing the refresh flow
-
-…and it lands in the same DB the TUI reads.
 
 ![board view — tasks grouped by status across all projects](docs/img/board.png)
 
