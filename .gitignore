@@ -1,0 +1,19 @@
+# Built binary
+/worklog
+
+# Local databases
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Editor / OS junk
+.DS_Store
+*.swp
+*~
+
+# Local Claude Code config (user-specific permissions, paths, etc.)
+.claude/
+
+# Local MCP wiring (paths are user-specific; see README for the template)
+.mcp.json

@@ -1,0 +1,109 @@
+# worklog — example config
+# Drop into: ~/.config/worklog/config.toml
+# Any field may be omitted — defaults are used.
+
+[ui]
+view_default     = "worklog"   # worklog | board
+day_target_hours = 8
+border_style     = "rounded"   # rounded | sharp | thick | none
+
+[ui.colors]
+accent    = "212"   # pink accent for the cursor and overlay borders
+bright    = "231"
+text      = "252"
+muted     = "244"
+dim       = "240"
+border    = "240"
+hours     = "220"
+chip_bg   = "63"
+row_focus = "237"   # bg of the currently-focused header row
+
+# ── Keys ────────────────────────────────────────────────────────────────────
+# Tunable single-key shortcuts. Empty (or missing) → default. Strings are the
+# bubbletea key names, so things like "ctrl+r", "alt+m", "f1" all work.
+[keys]
+board_move_modifier = "shift"   # ←/→ on the board: shift | ctrl | alt
+reload   = "ctrl+r"             # reload from disk (sync MCP/CLI changes)
+palette  = "/"                  # open the command palette
+about    = "i"                  # open the about overlay
+move     = "m"                  # open status-move picker for the task under cursor
+activity = "a"                  # open new-activity form for the task under cursor
+find     = "f"                  # open the inline search bar
+
+# Global staleness thresholds for the board.
+# warn  — card highlighted orange.
+# alert — red + ⚠ glyph.
+[stale]
+warn_days  = 2
+alert_days = 3
+
+# Per-status overrides (optional). Any field may be omitted — it inherits
+# from the global [stale] table.
+[stale_per_status.in_progress]
+warn_days  = 1
+alert_days = 2
+
+[stale_per_status.to_test]
+warn_days  = 3
+alert_days = 5
+
+# ── Workflow ────────────────────────────────────────────────────────────────
+# Declaring even a single [[status]] FULLY replaces the default list.
+# The order is also the column order on the board (those with on_board = true)
+# and the cycle order of ←/→ in the editor.
+
+[[status]]
+key      = "backlog"
+label    = "BACKLOG"
+icon     = "◌"
+color    = "241"
+on_board = true
+
+[[status]]
+key      = "todo"
+label    = "TODO"
+icon     = "○"
+color    = "244"
+on_board = true
+
+[[status]]
+key      = "in_progress"
+label    = "IN PROGRESS"
+icon     = "◔"
+color    = "220"
+on_board = true
+
+[[status]]
+key      = "to_test"
+label    = "TO TEST"
+icon     = "◐"
+color    = "117"
+on_board = true
+
+[[status]]
+key      = "to_deploy"
+label    = "TO DEPLOY"
+icon     = "◕"
+color    = "75"
+on_board = true
+
+[[status]]
+key      = "done"
+label    = "DONE"
+icon     = "●"
+color    = "42"
+on_board = false
+
+[[status]]
+key      = "on_hold"
+label    = "ON HOLD"
+icon     = "⏸"
+color    = "245"
+on_board = false
+
+# Per-project colors — override the default palette.
+[project_colors]
+AURA    = "33"
+WORKLOG = "207"
+SHOP    = "48"
+INFRA   = "214"
