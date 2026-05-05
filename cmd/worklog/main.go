@@ -57,7 +57,7 @@ func main() {
 	help := flag.Bool("help-overlay", false, "snapshot the help overlay")
 	cfgPath := flag.String("config", config.DefaultPath(), "path to config.toml")
 	dbPath := flag.String("db", store.DefaultPath(), "path to worklog.db (sqlite)")
-	seed := flag.Bool("seed", false, "force-seed mock data even if DB has rows")
+	seed := flag.Bool("seed", false, "explicitly seed the DB with sample data (only ever runs when this flag is set)")
 	reset := flag.Bool("reset", false, "delete the DB file before opening (DESTRUCTIVE)")
 	demo := flag.Bool("demo", false, "skip the DB entirely; render in-memory mocks (snapshots/dev)")
 	flag.Parse()
@@ -72,7 +72,11 @@ func main() {
 	var db *store.DB
 	if !*demo {
 		if *reset {
+			// WAL mode leaves -wal and -shm sidecars; deleting only the
+			// main file confuses sqlite on the next open ("disk I/O error").
 			_ = os.Remove(*dbPath)
+			_ = os.Remove(*dbPath + "-wal")
+			_ = os.Remove(*dbPath + "-shm")
 		}
 		var err error
 		db, err = store.Open(*dbPath)
@@ -81,13 +85,14 @@ func main() {
 			os.Exit(1)
 		}
 		defer db.Close()
-		seeded, err := tui.MaybeSeed(db, *seed)
-		if err != nil {
-			fmt.Fprintln(os.Stderr, "seed:", err)
-			os.Exit(1)
-		}
-		if seeded && !*dump {
-			fmt.Fprintln(os.Stderr, "seeded mock data into", *dbPath)
+		if *seed {
+			if err := tui.Seed(db); err != nil {
+				fmt.Fprintln(os.Stderr, "seed:", err)
+				os.Exit(1)
+			}
+			if !*dump {
+				fmt.Fprintln(os.Stderr, "seeded mock data into", *dbPath)
+			}
 		}
 	}
 

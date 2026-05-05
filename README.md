@@ -109,12 +109,13 @@ worklog
 ```
 
 On first launch it creates `~/.local/share/worklog/worklog.db` (XDG-aware;
-honours `$XDG_DATA_HOME`) and seeds it with sample projects, tasks, logs,
-and activities so the TUI isn't empty.
+honours `$XDG_DATA_HOME`) and opens an empty TUI — no sample data is
+written. Add a project and start logging via the TUI, the CLI, or MCP.
 
 Useful flags:
 
-- `--reset` — wipe the DB and re-seed.
+- `--seed` — populate the DB with sample projects, tasks, logs, and activities (handy for kicking the tyres before adding real data).
+- `--reset` — delete the DB file (and its WAL sidecars) before opening. Combine with `--seed` to start over from samples.
 - `--demo` — skip the DB entirely and render in-memory mocks (for screenshots).
 - `--db <path>` — point at a different SQLite file.
 

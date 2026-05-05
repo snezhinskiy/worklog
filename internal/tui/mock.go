@@ -194,21 +194,15 @@ func mockDataFor(t time.Time) ([]Project, []Task, []LogEntry, []store.Activity) 
 	return projects, tasks, logs, activities
 }
 
-// MaybeSeed writes mock data into the DB. If force is true, seeds regardless;
-// otherwise only seeds when the DB is empty (first run). Returns true when
-// rows were actually written.
-func MaybeSeed(db domain.Store, force bool) (bool, error) {
-	if !force {
-		empty, err := db.IsEmpty()
-		if err != nil || !empty {
-			return false, err
-		}
-	}
+// Seed writes mock data into the DB. Only ever called explicitly via the
+// --seed flag; we never seed on empty-DB launches because that surprises
+// people running worklog for real on a fresh install.
+func Seed(db domain.Store) error {
 	now := time.Now()
 	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
 	projects, tasks, logs, activities := mockDataFor(today)
 	for _, p := range projects {
-		_ = db.CreateProject(p) // ignore "already exists" on force-seed
+		_ = db.CreateProject(p) // ignore "already exists" on re-seed
 	}
 	for _, t := range tasks {
 		if _, err := db.CreateTask(t); err != nil {
@@ -225,5 +219,5 @@ func MaybeSeed(db domain.Store, force bool) (bool, error) {
 			continue
 		}
 	}
-	return true, nil
+	return nil
 }
