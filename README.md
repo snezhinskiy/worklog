@@ -123,10 +123,15 @@ Useful flags:
 
 ## Config
 
-Optional. Drop [`examples/config.toml`](examples/config.toml) into
+`install.sh` drops a fully-commented config at
 `~/.config/worklog/config.toml` (or `$XDG_CONFIG_HOME/worklog/config.toml`)
-and tweak. Every field has a built-in default — leave out anything you
-don't care about.
+on first run — open it and tweak. Every field has a built-in default, so
+you can leave out anything you don't care about, and re-running the
+installer won't overwrite an existing file.
+
+If you installed manually via `go install`, the same template lives in
+the repo at [`examples/config.toml`](examples/config.toml) — copy it to
+the path above by hand.
 
 | Section                  | What it controls                                                                 |
 | ------------------------ | -------------------------------------------------------------------------------- |

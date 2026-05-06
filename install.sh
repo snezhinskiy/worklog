@@ -56,7 +56,19 @@ case ":$PATH:" in
      echo "      export PATH=\"\$PATH:$INSTALL_DIR\"" ;;
 esac
 
-# --- 3. register MCP -------------------------------------------------------
+# --- 3. drop default config (so you can see what's tunable) -----------------
+
+CFG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/worklog"
+CFG_FILE="$CFG_DIR/config.toml"
+if [ -f "$CFG_FILE" ]; then
+  echo "==> Config already exists at $CFG_FILE — leaving it alone."
+else
+  mkdir -p "$CFG_DIR"
+  cp "$REPO_DIR/examples/config.toml" "$CFG_FILE"
+  echo "==> Wrote default config: $CFG_FILE"
+fi
+
+# --- 4. register MCP -------------------------------------------------------
 
 case "$CLIENT" in
   none)
