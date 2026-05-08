@@ -569,7 +569,7 @@ func (m Model) renderHelp(width int) string {
 			{"←/→", "cycle choice on choice fields"},
 			{"↵ enter", "next field; submit on last"},
 			{"esc", "cancel"},
-			{"ctrl+s", "save"},
+			{"ctrl+enter · ctrl+s", "save"},
 		}),
 		"",
 		muted.Render("press esc, ? or ↵ to close"),

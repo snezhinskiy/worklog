@@ -155,9 +155,21 @@ func (m *Model) updateEdit(msg tea.KeyMsg) tea.Cmd {
 	case "esc":
 		m.edit = nil
 		return nil
-	case "ctrl+s":
+	case "ctrl+s", "ctrl+enter":
+		// ctrl+s often gets eaten by terminal XOFF (software flow control),
+		// so ctrl+enter is the dependable alternative.
 		m.saveEdit()
 		m.edit = nil
+		return nil
+	case "enter":
+		// Enter advances to the next field; on the last one, submits.
+		if f.focusField == editNote {
+			m.saveEdit()
+			m.edit = nil
+			return nil
+		}
+		f.focusField = (f.focusField + 1) % editFieldCount
+		m.refocusEditInputs()
 		return nil
 	case "tab", "down":
 		f.focusField = (f.focusField + 1) % editFieldCount
@@ -336,7 +348,7 @@ func (m Model) renderEditor(width int) string {
 	hoursLine := m.editFieldLine("Hours", f.hours.View(), f.focusField == editHours)
 	noteLine := m.editFieldLine("Note", f.note.View(), f.focusField == editNote)
 
-	help := muted.Render("↑/↓ field · esc cancel · ctrl+s save")
+	help := muted.Render("↑/↓ field · esc cancel · ↵/ctrl+s save")
 
 	activitiesBlock := m.renderEditorActivities(f.taskExtID)
 
