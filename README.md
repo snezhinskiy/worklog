@@ -208,7 +208,7 @@ Press `?` inside the TUI for the full list. The defaults:
 | Key            | Action                                            |
 | -------------- | ------------------------------------------------- |
 | `↑/↓ ←/→`      | navigate cursor / chips                           |
-| `tab`          | next focus area                                   |
+| `tab`          | jump between header (chips) and body              |
 | `↵`            | edit the row under the cursor                     |
 | `→`            | expand a task to walk its individual log lines    |
 | `v g r p`      | cycle view / group / range / project filter       |

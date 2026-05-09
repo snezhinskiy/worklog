@@ -535,7 +535,7 @@ func (m Model) renderHelp(width int) string {
 		section("navigation", [][2]string{
 			{"↑/up   ↓/down", "move cursor / focus"},
 			{"←/left →/right", "change chip · expand/collapse task"},
-			{"tab", "next focus area"},
+			{"tab", "toggle header / body"},
 			{"PgUp / PgDn", "page up / page down"},
 		}),
 		"",

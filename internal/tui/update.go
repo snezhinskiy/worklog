@@ -154,7 +154,18 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		case key.Matches(msg, m.keys.Tab):
-			m.focus = (m.focus + 1) % focusCount
+			// Tab toggles between the header (chips) and the body, instead of
+			// stepping through each chip one at a time. Returning to the
+			// header lands on whichever chip was last active.
+			if m.focus == focusBody {
+				if m.lastHeaderFocus == focusBody {
+					m.lastHeaderFocus = focusView
+				}
+				m.focus = m.lastHeaderFocus
+			} else {
+				m.lastHeaderFocus = m.focus
+				m.focus = focusBody
+			}
 
 		case key.Matches(msg, m.keys.Enter):
 			if m.focus == focusBody {

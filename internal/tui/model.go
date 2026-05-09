@@ -95,6 +95,10 @@ type Model struct {
 	projectFilter int // 0 = "all", else 1+i into projects
 	cursor        int
 	focus         focusArea
+	// lastHeaderFocus remembers which chip the user was on before tabbing
+	// down to the body, so tabbing back returns there instead of always
+	// landing on the first chip.
+	lastHeaderFocus focusArea
 
 	today time.Time
 
@@ -144,7 +148,7 @@ func defaultKeymap() keymap {
 		Down:  key.NewBinding(key.WithKeys("down", "j"), key.WithHelp("↓", "down")),
 		Left:  key.NewBinding(key.WithKeys("left", "h"), key.WithHelp("←", "left")),
 		Right: key.NewBinding(key.WithKeys("right", "l"), key.WithHelp("→", "right")),
-		Tab:   key.NewBinding(key.WithKeys("tab"), key.WithHelp("tab", "next section")),
+		Tab:   key.NewBinding(key.WithKeys("tab"), key.WithHelp("tab", "toggle header / body")),
 		Enter: key.NewBinding(key.WithKeys("enter"), key.WithHelp("↵", "edit")),
 		PgUp:  key.NewBinding(key.WithKeys("pgup", "ctrl+u"), key.WithHelp("PgUp", "page up")),
 		PgDn:  key.NewBinding(key.WithKeys("pgdown", "ctrl+d"), key.WithHelp("PgDn", "page down")),
